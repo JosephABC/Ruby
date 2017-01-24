@@ -1,0 +1,7 @@
+<%= simple_form_for @item do |f| %>
+  <%= f.input :title, label: "Item" %>
+  <%= f.input :description %>
+  <%= f.label :tag_list, "Tags (separated by commas)" %></br>
+  <%= f.text_field :tag_list, value: f.object.tag_list.to_s %></br>
+  <%= f.button :submit %>
+<% end %>
