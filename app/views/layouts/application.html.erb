@@ -14,7 +14,6 @@
       <div class="container">
         <div class="navbar-header">
           <%= link_to "Checklist", root_path, class: "navbar-brand" %>
-
         </div>
         <ul class="nav navbar-nav">
           <li><%= link_to "Sign Up", new_user_registration_path  %></li>
@@ -23,14 +22,10 @@
           <% else %>
             <li><%= link_to "Log In", new_user_session_path %></li>
           <% end %>
-          <% if user_signed_in? %>
-            <li><%= link_to "New Item", new_item_path, class: "navbar-text navbar-link navbar-right" %></li>
-          <% end %>
-          <li><%= form_tag(items_path, :method => "get", id: "search-form", class: "navbar-form navbar-right") do %>
-          <%= text_field_tag :search, params[:search], placeholder: "Search Item", class: "form-control" %>
-          <%= submit_tag "Search", class: "btn btn-default" %>
-          <% end %></li>
         </ul>
+          <% if user_signed_in? %>
+            <%= link_to "New Item", new_item_path, class: "navbar-link navbar-right navbar-text" %>
+          <% end %>
 
       </div>
 
@@ -39,9 +34,18 @@
     <p class="notice"><%= notice %></p>
     <p class="alert"><%= alert %></p>
 
-    <div class="container">
+    <div class="container col-md-6 col-md-offset-2">
       <%= yield %>
     </div>
+    <% if user_signed_in?%>
+      <div class="col-md-2 col-md-offset-1">
+        <h1><font face="georgia">TAGS</font></h1>
+        <% @tags = Item.where(:user_id => current_user.id).tag_counts_on(:tags) %>
+        <% tag_cloud(@tags, %w(css1 css2 css3 css4)) do |tag, css_class| %>
+          <%= link_to tag.name, tag_path(tag), :class => css_class %>
+        <% end %>
+      </div>
+    <% end %>
 
 
   </body>

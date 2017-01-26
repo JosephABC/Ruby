@@ -5,7 +5,7 @@ Rails.application.routes.draw do
       patch :complete
     end
   end
-  resources :tags, only: [:index, :show]
+  resources :tags, only: [:index, :show, :tag_cloud]
   root 'items#index'
 
 

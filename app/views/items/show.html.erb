@@ -1,7 +1,70 @@
-<div class="col-md-6 col-md-offset-3">
-  <h2><%= @item.title %></h2>
-  <p><%= @item.description %></p>
-  
-  <%= link_to "Back", root_path %>
-  <%= link_to "Edit",edit_item_path(@item)  %>
+
+<div class="page-header">
+  <h1>Item</h1>
 </div>
+  <% if @item.completed? %>
+    <div class="row item">
+
+      <div class="col-md-9">
+        <h2 style="opacity:0.5;"><strike><%= @item.title%></strike></h2>
+        <p style="opacity:0.5;">Category: <%= @item.description %></p>
+        <p>
+          Tags: <%= render @item.tags %>
+        </p>
+        <p style="opacity:0.5;">Completed <%=time_ago_in_words(@item.completed_at) %> ago</p>
+      </div>
+
+      <div class="col-md-1">
+        <p><%= link_to complete_item_path(@item), method: :patch do %></p>
+          <i class="fa fa-lg fa-check"></i>
+        <% end %>
+      </div>
+
+      <div class="col-md-1">
+        <p><%= link_to edit_item_path(@item) do %></p>
+          <i class="fa fa-lg fa-pencil-square-o" aria-hidden="true"></i>
+        <% end %>
+      </div>
+
+      <div class="col-md-1">
+        <p><%= link_to @item, method: :delete, data: {confirm: "Are you sure?"} do %></p>
+          <i class="fa fa-lg fa-trash"></i>
+        <% end %>
+      </div>
+
+    </div>
+
+  <% else %>
+    <div class="row item">
+        <div class="col-md-9">
+          <h2><%= @item.title %></h2>
+          <p><%= @item.description %></p>
+          <p>
+            Tags: <%= render @item.tags %>
+          </p>
+          <p>Created <%=time_ago_in_words(@item.created_at) %> ago</p>
+        </div>
+
+        <div class="col-md-1">
+          <p><%= link_to complete_item_path(@item), method: :patch do %></p>
+            <i class="fa fa-lg fa-check"></i>
+          <% end %>
+        </div>
+
+        <div class="col-md-1">
+          <p><%= link_to edit_item_path(@item) do %></p>
+            <i class="fa fa-lg fa-pencil-square-o" aria-hidden="true"></i>
+          <% end %>
+        </div>
+
+        <div class="col-md-1">
+          <p><%= link_to @item, method: :delete, data: {confirm: "Are you sure?"} do %></p>
+            <i class="fa fa-lg fa-trash"></i>
+          <% end %>
+        </div>
+
+    </div>
+  <% end %>
+  <%= link_to root_path do %>
+    <i class="fa fa-lg fa-reply" aria-hidden="true"></i> BACK
+  <% end %>

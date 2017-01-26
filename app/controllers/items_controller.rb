@@ -4,13 +4,18 @@ class ItemsController < ApplicationController
     if user_signed_in?
       @items = Item.where(:user_id => current_user.id).order("created_at DESC")
     end
-    @tags = ActsAsTaggableOn::Tag.all
+
   end
+
+
 
   def show
 
   end
 
+  def edit
+
+  end
 
   def new
     @item = current_user.items.build
@@ -26,8 +31,6 @@ class ItemsController < ApplicationController
   end
 
 
-  def edit
-  end
 
   def destroy
     @item.destroy
@@ -42,7 +45,7 @@ class ItemsController < ApplicationController
 
   def update
     if @item.update(item_params)
-      redirect_to item_path(@item)
+      redirect_to root_path
     else
       render 'edit'
     end
@@ -52,11 +55,12 @@ class ItemsController < ApplicationController
   private
 
     def item_params
-      params.require(:item).permit(:title, :description, :content, :tag_list)
+      params.require(:item).permit(:title, :description, :tag_list)
     end
 
     def find_item
       @item = Item.find(params[:id])
     end
+
 
 end
